@@ -32,11 +32,11 @@ public class TablePartE{
 	Table table = connection.getTable(TableName.valueOf("powers"));
 
 	Scan scan = new Scan();
+	scan.addColumn(Bytes.toBytes("custom"), Bytes.toBytes("color"));
 	scan.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("hero"));
 	scan.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("power"));
 	scan.addColumn(Bytes.toBytes("professional"), Bytes.toBytes("name"));
-	scan.addColumn(Bytes.toBytes("professional"), Bytes.toBytes("scan"));
-	scan.addColumn(Bytes.toBytes("custom"), Bytes.toBytes("color"));
+	scan.addColumn(Bytes.toBytes("professional"), Bytes.toBytes("xp"));
 
 
 	ResultScanner scanner = table.getScanner(scan);
