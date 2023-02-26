@@ -17,15 +17,26 @@ import org.apache.hadoop.hbase.client.Scan;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.Admin;
+
 public class TablePartB{
 
    public static void main(String[] args) throws IOException {
+      Configuration config = HBaseConfiguration.create();
+      config.set("hbase.zookeeper.quorum", "localhost");
+      config.set("hbase.zookeeper.property.clientPort", "2181");
 
-   	HTableDescriptor[] tableDescriptor = ???;
-	//TODO    
-	for(???){
-         System.out.println(tableDescriptor[i].getNameAsString());
-     }
+      HBaseAdmin admin = new HBaseAdmin(config);
+
+   	HTableDescriptor[] tableDescriptor = admin.listTables();
+  
+      for(int i = 0; i < tableDescriptor.length; i++){
+            System.out.println(tableDescriptor[i].getNameAsString());
+      }
+
+      admin.close();
    }
 }
 

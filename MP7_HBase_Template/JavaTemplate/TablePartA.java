@@ -17,17 +17,15 @@ import org.apache.hadoop.hbase.client.Scan;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.Admin;
-
 
 public class TablePartA{
 
    public static void main(String[] args) throws IOException {
       Configuration config = HBaseConfiguration.create();
-      Connection connection = ConnectionFactory.createConnection(config);
-      Admin admin = connection.getAdmin();
+      config.set("hbase.zookeeper.quorum", "localhost");
+      config.set("hbase.zookeeper.property.clientPort", "2181");
+
+      HBaseAdmin admin = new HBaseAdmin(config);
 
       HTableDescriptor tableDescriptor1 = new HTableDescriptor(TableName.valueOf("powers"));
       tableDescriptor1.addFamily(new HColumnDescriptor("personal"));
@@ -43,7 +41,5 @@ public class TablePartA{
       admin.createTable(tableDescriptor2);
 
       admin.close();
-      connection.close();
-	
    }
 }
