@@ -17,14 +17,29 @@ import org.apache.hadoop.hbase.client.Scan;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.Table;
+
 public class TablePartE{
 
    public static void main(String[] args) throws IOException {
 
-	// TODO      
-	// DON' CHANGE THE 'System.out.println(xxx)' OUTPUT PART
-	// OR YOU WON'T RECEIVE POINTS FROM THE GRADER
-	ResultScanner scanner = ???;
+	Configuration config = HBaseConfiguration.create();
+
+    Connection connection = ConnectionFactory.createConnection(config);
+
+	Table table = connection.getTable(TableName.valueOf("powers"));
+
+	Scan scan = new Scan();
+	scan.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("hero"));
+	scan.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("power"));
+	scan.addColumn(Bytes.toBytes("professional"), Bytes.toBytes("name"));
+	scan.addColumn(Bytes.toBytes("professional"), Bytes.toBytes("scan"));
+	scan.addColumn(Bytes.toBytes("custom"), Bytes.toBytes("color"));
+
+
+	ResultScanner scanner = table.getScanner(scan);
 	for (Result result = scanner.next(); result != null; result = scanner.next())
 		System.out.println(result);
    }
